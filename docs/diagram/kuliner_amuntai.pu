@@ -1,0 +1,90 @@
+"@startuml kuliner_amuntai"
+
+entity users {
+   *id : INT <PK>
+   --
+   *full_name : VARCHAR(75)
+   --
+   *email : VARCHAR(128) <UK>
+   --
+   *password : VARCHAR(225)
+   --
+   *status : Boolean Default(true)
+   --
+   refresh_token : VARCHAR(750)
+   --
+   *created_at : TIMESTAMP
+   *updated_at : TIMESTAMP
+}
+
+entity shops {
+   *id : INT <PK>
+   --
+   *name : VARCHAR(25)
+   --
+   *no_hp : VARCHAR(13)
+   --
+   *user_id : INT <FK>
+   --
+   *created_at : TIMESTAMP
+   *updated_at : TIMESTAMP
+}
+
+entity addresses {
+  *shop_id : INT <PK> <FK>
+  --
+  *country : VARCHAR(50)
+  --
+  *province : VARCHAR(50)
+  --
+  *city : VARCHAR(50)
+  --
+  *street : VARCHAR(100)
+  --
+  *postal_code : VARCHAR(5)
+}
+
+entity categories {
+   *id : INT <PK>
+   --
+   *name : VARCHAR(25)
+   --
+   *shop_id : INT <FK>
+   --
+   *created_at : TIMESTAMP
+   *updated_at : TIMESTAMP
+   --
+   desc:
+   unique("name_unique" => [shop_id, name])
+}
+
+entity products {
+   *id : INT <PK>
+   --
+   *name : VARCHAR(70)
+   --
+   description : VARCHAR(225)
+   --
+   *shop_id : INT <FK>
+   --
+   *category_id : INT <FK>
+   --
+   *created_at : TIMESTAMP
+   *updated_at : TIMESTAMP
+   --
+   desc:
+   unique("name_unique" => [shop_id, name])
+}
+
+shops }|--o| users
+addresses ||--|| shops
+categories }|--o| shops
+products }|--o| shops
+products }|--o| categories
+
+@enduml
+
+
+
+
+
